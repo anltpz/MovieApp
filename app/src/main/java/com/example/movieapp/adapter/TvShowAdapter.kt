@@ -1,16 +1,21 @@
 package com.example.movieapp.adapter
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.DetailActivity
 import com.example.movieapp.databinding.TvShowLayoutAdapterBinding
 import com.example.movieapp.model.TvShowItem
 
-class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.MyViewHolder>() {
+class TvShowAdapter(val context: Context) : RecyclerView.Adapter<TvShowAdapter.MyViewHolder>() {
 
    inner  class MyViewHolder(val binding: TvShowLayoutAdapterBinding):RecyclerView.ViewHolder(binding.root) {
 
@@ -43,6 +48,9 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.MyViewHolder>() {
       ))
     }
 
+
+
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentTvShow =tvShow[position]
         holder.binding.apply {
@@ -52,11 +60,26 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.MyViewHolder>() {
                 crossfade(1000)
 
             }
+
+            holder.itemView.setOnClickListener {
+                Log.e("Tiklandi","${currentTvShow.name}")
+                val intent =Intent(context,DetailActivity::class.java)
+                val data=currentTvShow.summary
+                var pattern ="<(“[^”]*”|'[^’]*’|[^'”>])*>".toRegex()
+
+                val result=data.replace(pattern,"")
+                intent.putExtra("name","$result")
+                  context.startActivity(intent)
+
+            }
+
         }
 
 
 
     }
+
+
 
     override fun getItemCount(): Int =tvShow.size
 
