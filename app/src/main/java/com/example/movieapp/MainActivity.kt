@@ -29,13 +29,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRv() {
-       tvShowAdapter= TvShowAdapter()
+       tvShowAdapter= TvShowAdapter(this)
         binding.recylerView.apply {
             adapter=tvShowAdapter
             layoutManager=LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
 
             setHasFixedSize(true)
         }
+
         binding.rvEpisodes.apply {
             adapter=tvShowAdapter
             layoutManager=LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
